@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+
+        <link href="css/style.css" rel="stylesheet">
+
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+
+        <script src="javascript/sjcl.js"></script>
+        <script src="javascript/script.js"></script>
+
+        <title>Тайный Санта</title>
+    </head>
+    <body>
+        <div class="container" ng-app="santaApp" ng-controller="SantaCtrl" ng-cloak>
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><i class="fa fa-gift"></i> Тайный Санта</a>
+                </div>
+            </nav>
+
+            <div class="panel panel-default" ng-show="input">
+                <div class="panel-heading"><i class="fa fa-list"></i> Список участников</div>
+
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="name in names track by $index">
+                            <span class="name"><i class="fa fa-user" ng-style="color(name);"></i> {{ name }}</span>
+                            <button class="close" ng-click="remove($index)">&times;</button>
+                        </li>
+
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <input type="text" placeholder="Имя" class="form-control" ng-model="name">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" ng-click="add();"><i class="fa fa-plus"></i> Добавить</button>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="alert alert-warning" ng-hide="validate();"><i class="fa fa-exclamation-circle"></i> Необходимо хотя бы два участника</div>
+
+                    <button class="btn btn-primary btn-block" ng-disabled="!validate();" ng-click="arrange();"><i class="fa fa-random"></i> Перемешать</button>
+                </div>
+            </div>
+
+            <div class="panel panel-default" ng-if="!input">
+                <div class="panel-heading"><i class="fa fa-exchange"></i> Результаты</div>
+
+                <div class="panel-body">
+                    <div ng-repeat="name in names track by $index" ng-hide="!current($index);">
+                        <h2>Сейчас смотрит: <span class="name"><i class="fa fa-user" ng-style="color(name);"></i> {{ name }}</span></h2>
+
+                        <div class="well" ng-hide="!visible">
+                            <p>Твой одариваемый: <span class="name"><i class="fa fa-user" ng-style="color(receivers[$index]);"></i> {{ receivers[$index] }}</span></p>
+                        </div>
+
+                        <button class="btn btn-warning btn-block" ng-click="show();" ng-hide="visible"><i class="fa fa-eye"></i> Показать</button>
+                        <button class="btn btn-success btn-block" ng-click="next();" ng-hide="!visible"><i class="fa fa-arrow-right"></i> Следующий</button>
+                    </div>
+
+                    <div class="alert alert-success" ng-hide="!done">Больше ничего нет.</div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

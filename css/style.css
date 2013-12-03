@@ -1,0 +1,8 @@
+body {
+    padding-top: 20px;
+    background-image: url('../images/background.png');
+}
+
+span.name {
+	white-space: nowrap;
+}
